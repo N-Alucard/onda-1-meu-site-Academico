@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExamesMZ - Preparação Acadêmica e Exames de Admissão</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            500: '#0284c7',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col antialiased">
+
+    <!-- Header / Navbar -->
+    <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3 cursor-pointer" onclick="switchTab('explore')">
+                <div class="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center font-bold text-xl shadow-lg shadow-blue-500/30">
+                    E
+                </div>
+                <div>
+                    <span class="text-xl font-black tracking-tight text-slate-900">Exames<span class="text-blue-600">MZ</span></span>
+                    <span class="block text-[10px] text-slate-500 font-medium -mt-1">Portal de Admissão</span>
+                </div>
+            </div>
+
+            <!-- Navegação Desktop -->
+            <nav class="hidden md:flex items-center space-x-1">
+                <button onclick="switchTab('explore')" id="nav-explore" class="px-4 py-2 rounded-lg font-medium text-sm transition-all text-blue-600 bg-blue-50">
+                    <i data-lucide="book-open" class="w-4 h-4 inline mr-1.5"></i> Explora Exames
+                </button>
+                <button onclick="switchTab('quiz')" id="nav-quiz" class="px-4 py-2 rounded-lg font-medium text-sm transition-all text-slate-600 hover:text-blue-600 hover:bg-slate-100">
+                    <i data-lucide="brain-circuit" class="w-4 h-4 inline mr-1.5"></i> Simulados & Quizzes
+                </button>
+                <button onclick="switchTab('upload')" id="nav-upload" class="px-4 py-2 rounded-lg font-medium text-sm transition-all text-slate-600 hover:text-blue-600 hover:bg-slate-100">
+                    <i data-lucide="upload-cloud" class="w-4 h-4 inline mr-1.5"></i> Contribuir Exame
+                </button>
+                <button onclick="switchTab('bookmarks')" id="nav-bookmarks" class="px-4 py-2 rounded-lg font-medium text-sm transition-all text-slate-600 hover:text-blue-600 hover:bg-slate-100 relative">
+                    <i data-lucide="bookmark" class="w-4 h-4 inline mr-1.5"></i> Salvos
+                    <span id="bookmark-count" class="hidden absolute -top-1 -right-1 bg-blue-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold">0</span>
+                </button>
+            </nav>
+
+            <!-- Botão Mobile Menu -->
+            <div class="md:hidden flex items-center">
+                <button id="mobile-menu-btn" class="p-2 rounded-lg text-slate-600 hover:bg-slate-100 focus:outline-none">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Menu Mobile Extra -->
+        <div id="mobile-menu" class="hidden md:hidden border-t border-slate-200 bg-white px-4 pt-2 pb-4 space-y-2">
+            <button onclick="switchTab('explore'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-lg font-medium text-slate-700 hover:bg-blue-50 hover:text-blue-600">
+                <i data-lucide="book-open" class="w-4 h-4 inline mr-2"></i> Explorar Exames
+            </button>
+            <button onclick="switchTab('quiz'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-lg font-medium text-slate-700 hover:bg-blue-50 hover:text-blue-600">
+                <i data-lucide="brain-circuit" class="w-4 h-4 inline mr-2"></i> Simulados Rápido
+            </button>
+            <button onclick="switchTab('upload'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-lg font-medium text-slate-700 hover:bg-blue-50 hover:text-blue-600">
+                <i data-lucide="upload-cloud" class="w-4 h-4 inline mr-2"></i> Contribuir Material
+            </button>
+            <button onclick="switchTab('bookmarks'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-lg font-medium text-slate-700 hover:bg-blue-50 hover:text-blue-600">
+                <i data-lucide="bookmark" class="w-4 h-4 inline mr-2"></i> Guardados
+            </button>
+        </div>
+    </header>
+
+    <!-- Conteúdo Principal -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+        <!-- Banner Promocional / Informações -->
+        <div id="hero-banner" class="mb-8 rounded-2xl bg-gradient-to-r from-blue-700 via-blue-600 to-indigo-700 text-white p-6 sm:p-10 shadow-xl relative overflow-hidden">
+            <div class="relative z-10 max-w-2xl">
+                <span class="inline-block px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-xs font-semibold tracking-wide uppercase mb-3">
+                    A maior biblioteca académica de Moçambique
+                </span>
+                <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight mb-3">
+                    Prepara-te para os Exames de Admissão com Sucesso
+                </h1>
+                <p class="text-blue-100 text-sm sm:text-base mb-6 leading-relaxed">
+                    Baixe exames passados, guias de correção e guia-te através dos nossos simulados interativos da UEM, UP, UniZambeze, UniLúrio e mais.
+                </p>
+                <div class="flex flex-wrap gap-3">
+                    <button onclick="quickFilter('UEM')" class="px-4 py-2 bg-white/10 hover:bg-white/20 backdrop-blur-md rounded-xl text-xs font-medium border border-white/20 transition-all flex items-center gap-1.5">
+                        <i data-lucide="building-2" class="w-3.5 h-3.5"></i> Exames UEM
+                    </button>
+                    <button onclick="quickFilter('UP')" class="px-4 py-2 bg-white/10 hover:bg-white/20 backdrop-blur-md rounded-xl text-xs font-medium border border-white/20 transition-all flex items-center gap-1.5">
+                        <i data-lucide="building-2" class="w-3.5 h-3.5"></i> Exames UP
+                    </button>
+                    <button onclick="quickFilter('UniZambeze')" class="px-4 py-2 bg-white/10 hover:bg-white/20 backdrop-blur-md rounded-xl text-xs font-medium border border-white/20 transition-all flex items-center gap-1.5">
+                        <i data-lucide="building-2" class="w-3.5 h-3.5"></i> UniZambeze
+                    </button>
+                </div>
+            </div>
+            <!-- Elementos decorativos -->
+            <div class="absolute -right-10 -bottom-10 w-60 h-60 bg-white/10 rounded-full blur-2xl pointer-events-none"></div>
+            <i data-lucide="graduation-cap" class="absolute right-6 top-1/2 -translate-y-1/2 w-48 h-48 text-white/10 hidden lg:block"></i>
+        </div>
+
+        <!-- SEÇÃO 1: EXPLORAR EXAMES (Busca e Lista) -->
+        <section id="section-explore" class="space-y-6">
+            
+            <!-- Barra de Filtros e Busca -->
+            <div class="bg-white p-4 sm:p-6 rounded-2xl border border-slate-200/80 shadow-sm space-y-4">
+                <div class="relative">
+                    <i data-lucide="search" class="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                    <input type="text" id="search-input" placeholder="Pesquisar por disciplina (ex: Matemática, Biologia), instituição ou palavra-chave..." 
+                           class="w-full pl-12 pr-10 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all text-sm">
+                    <button id="clear-search" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                </div>
+
+                <!-- Filtros Dropdown -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">Universidade</label>
+                        <select id="filter-university" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-xs font-medium text-slate-700 focus:ring-2 focus:ring-blue-500 outline-none">
+                            <option value="">Todas as Instituições</option>
+                            <option value="UEM">UEM (Maputo)</option>
+                            <option value="UP">UP (Pedagógica)</option>
+                            <option value="UniZambeze">UniZambeze</option>
+                            <option value="UniLúrio">UniLúrio</option>
+                            <option value="ISR">ISR / IFP</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">Disciplina</label>
+                        <select id="filter-subject" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-xs font-medium text-slate-700 focus:ring-2 focus:ring-blue-500 outline-none">
+                            <option value="">Todas as Disciplinas</option>
+                            <option value="Matemática">Matemática</option>
+                            <option value="Física">Física</option>
+                            <option value="Química">Química</option>
+                            <option value="Biologia">Biologia</option>
+                            <option value="Português">Português</option>
+                            <option value="História">História</option>
+                            <option value="Geografia">Geografia</option>
+                            <option value="Inglês">Inglês</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">Ano</label>
+                        <select id="filter-year" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-xs font-medium text-slate-700 focus:ring-2 focus:ring-blue-500 outline-none">
+                            <option value="">Todos os Anos</option>
+                            <option value="2024">2024</option>
+                            <option value="2023">2023</option>
+                            <option value="2022">2022</option>
+                            <option value="2021">2021</option>
+                            <option value="2020">2020</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">Tipo de Ficheiro</label>
+                        <select id="filter-type" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-xs font-medium text-slate-700 focus:ring-2 focus:ring-blue-500 outline-none">
+                            <option value="">Todos os Tipos</option>
+                            <option value="Exame">Exame Oficial</option>
+                            <option value="Guia de Resolução">Guia de Resolução</option>
+                            <option value="Módulo de Preparação">Módulo de Preparação</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Resumo do Filtro / Botão Reset -->
+                <div class="flex items-center justify-between pt-2 border-t border-slate-100 text-xs text-slate-500">
+                    <span id="results-count">A carregar materiais...</span>
+                    <button onclick="resetFilters()" class="text-blue-600 hover:text-blue-800 font-medium flex items-center gap-1">
+                        <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i> Limpar Filtros
+                    </button>
+                </div>
+            </div>
+
+            <!-- Grelha de Exames (Cards) -->
+            <div id="exams-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                <!-- Inserido dinamicamente via JS -->
+            </div>
+
+            <!-- Estado Vazio -->
+            <div id="empty-state" class="hidden text-center py-16 bg-white rounded-2xl border border-slate-200">
+                <i data-lucide="file-x" class="w-12 h-12 mx-auto text-slate-300 mb-3"></i>
+                <h3 class="text-lg font-bold text-slate-700">Nenhum exame encontrado</h3>
+                <p class="text-slate-500 text-sm mt-1 max-w-md mx-auto">Tente ajustar a sua pesquisa ou os filtros selecionados para encontrar o material que deseja.</p>
+                <button onclick="resetFilters()" class="mt-4 px-4 py-2 bg-blue-50 text-blue-600 font-semibold text-xs rounded-xl hover:bg-blue-100">
+                    Redefinir Filtros
+                </button>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 2: SIMULADOS & QUIZZES -->
+        <section id="section-quiz" class="hidden space-y-6">
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                <div class="max-w-2xl">
+                    <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+                        <i data-lucide="brain-circuit" class="w-6 h-6 text-blue-600"></i> Simulados e Quizzes de Admissão
+                    </h2>
+                    <p class="text-sm text-slate-600 mt-1">
+                        Testa o teu nível de conhecimento com exames rápidos estilo escolha múltipla com correção imediata.
+                    </p>
+                </div>
+
+                <!-- Seleção do Quiz -->
+                <div id="quiz-selection" class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+                    <div class="border border-slate-200 hover:border-blue-500 rounded-xl p-5 cursor-pointer transition-all hover:shadow-md bg-slate-50 hover:bg-white" onclick="startQuiz('matematica')">
+                        <div class="w-10 h-10 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center font-bold mb-3">
+                            <i data-lucide="calculator" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="font-bold text-slate-800">Matemática Geral</h3>
+                        <p class="text-xs text-slate-500 mt-1">Equações, Funções e Trigonometria (Exames UEM/UP).</p>
+                        <span class="inline-block mt-3 text-xs font-semibold text-blue-600">5 Perguntas • 10 Min</span>
+                    </div>
+
+                    <div class="border border-slate-200 hover:border-blue-500 rounded-xl p-5 cursor-pointer transition-all hover:shadow-md bg-slate-50 hover:bg-white" onclick="startQuiz('fisica')">
+                        <div class="w-10 h-10 rounded-lg bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold mb-3">
+                            <i data-lucide="zap" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="font-bold text-slate-800">Física Geral</h3>
+                        <p class="text-xs text-slate-500 mt-1">Mecânica, Cinemática e Electrostática.</p>
+                        <span class="inline-block mt-3 text-xs font-semibold text-indigo-600">5 Perguntas • 10 Min</span>
+                    </div>
+
+                    <div class="border border-slate-200 hover:border-blue-500 rounded-xl p-5 cursor-pointer transition-all hover:shadow-md bg-slate-50 hover:bg-white" onclick="startQuiz('portugues')">
+                        <div class="w-10 h-10 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold mb-3">
+                            <i data-lucide="book-open-check" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="font-bold text-slate-800">Língua Portuguesa</h3>
+                        <p class="text-xs text-slate-500 mt-1">Compreensão de Texto, Sintaxe e Gramática.</p>
+                        <span class="inline-block mt-3 text-xs font-semibold text-emerald-600">5 Perguntas • 8 Min</span>
+                    </div>
+                </div>
+
+                <!-- Interface do Quiz Activo -->
+                <div id="quiz-container" class="hidden mt-6 pt-6 border-t border-slate-200">
+                    <div class="flex items-center justify-between mb-4">
+                        <span id="quiz-title-display" class="font-bold text-slate-800 text-base"></span>
+                        <span id="quiz-progress" class="text-xs font-medium text-slate-500">Pergunta 1 de 5</span>
+                    </div>
+
+                    <!-- Card da Pergunta -->
+                    <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 space-y-4">
+                        <h4 id="quiz-question-text" class="font-semibold text-slate-800 text-base leading-snug"></h4>
+                        <div id="quiz-options-container" class="space-y-2 pt-2">
+                            <!-- Opções carregadas via JS -->
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between items-center mt-6">
+                        <button onclick="cancelQuiz()" class="px-4 py-2 border border-slate-300 text-slate-600 text-xs font-semibold rounded-xl hover:bg-slate-100">
+                            Sair do Simulado
+                        </button>
+                        <button id="quiz-next-btn" onclick="nextQuestion()" class="px-6 py-2.5 bg-blue-600 text-white text-xs font-semibold rounded-xl hover:bg-blue-700 shadow-md shadow-blue-500/20 disabled:opacity-50" disabled>
+                            Próxima Pergunta
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Resultado do Quiz -->
+                <div id="quiz-result" class="hidden text-center py-8 space-y-4">
+                    <div class="w-16 h-16 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mx-auto text-2xl font-black">
+                        <i data-lucide="award" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-slate-800">Simulado Concluído!</h3>
+                    <p id="quiz-score-text" class="text-slate-600 font-medium"></p>
+                    <div class="pt-4 flex justify-center gap-3">
+                        <button onclick="resetQuizView()" class="px-5 py-2.5 bg-blue-600 text-white font-semibold text-xs rounded-xl hover:bg-blue-700">
+                            Tentar Outro Quiz
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 3: CONTRIBUIR (UPLOAD) -->
+        <section id="section-upload" class="hidden max-w-2xl mx-auto space-y-6">
+            <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm">
+                <div class="text-center mb-6">
+                    <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-3">
+                        <i data-lucide="upload-cloud" class="w-6 h-6"></i>
+                    </div>
+                    <h2 class="text-xl font-bold text-slate-900">Partilhar Exame ou Material</h2>
+                    <p class="text-xs text-slate-500 mt-1">Ajude outros estudantes enviando exames de admissão antigos ou guias de resolução.</p>
+                </div>
+
+                <form id="upload-form" class="space-y-4" onsubmit="handleUploadSubmit(event)">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Título do Material *</label>
+                        <input type="text" id="upload-title" required placeholder="Ex: Exame de Matemática UEM 1ª Época" class="w-full p-2.5 text-xs bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Universidade *</label>
+                            <select id="upload-university" required class="w-full p-2.5 text-xs bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+                                <option value="">Selecionar...</option>
+                                <option value="UEM">UEM</option>
+                                <option value="UP">UP</option>
+                                <option value="UniZambeze">UniZambeze</option>
+                                <option value="UniLúrio">UniLúrio</option>
+                                <option value="Outra">Outra</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Disciplina *</label>
+                            <select id="upload-subject" required class="w-full p-2.5 text-xs bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+                                <option value="">Selecionar...</option>
+                                <option value="Matemática">Matemática</option>
+                                <option value="Física">Física</option>
+                                <option value="Química">Química</option>
+                                <option value="Biologia">Biologia</option>
+                                <option value="Português">Português</option>
+                                <option value="História">História</option>
+                                <option value="Geografia">Geografia</option>
+                                <option value="Inglês">Inglês</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Ano do Exame *</label>
+                            <input type="number" min="2000" max="2026" id="upload-year" required placeholder="2023" class="w-full p-2.5 text-xs bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Tipo de Material *</label>
+                            <select id="upload-type" required class="w-full p-2.5 text-xs bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+                                <option value="Exame">Exame Oficial</option>
+                                <option value="Guia de Resolução">Guia de Resolução</option>
+                                <option value="Módulo de Preparação">Módulo de Preparação</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Ficheiro Upload Simulado -->
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Ficheiro PDF *</label>
+                        <div class="border-2 border-dashed border-slate-300 rounded-xl p-6 text-center hover:bg-slate-50 transition-all cursor-pointer" onclick="document.getElementById('file-input').click()">
+                            <i data-lucide="file-up" class="w-8 h-8 text-slate-400 mx-auto mb-2"></i>
+                            <span class="text-xs text-slate-600 font-medium block" id="file-name-display">Clique para selecionar o documento (PDF)</span>
+                            <span class="text-[10px] text-slate-400">Tamanho máximo pré-definido: 10MB</span>
+                            <input type="file" id="file-input" class="hidden" accept=".pdf" onchange="updateFileName(this)">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full py-3 bg-blue-600 text-white font-bold text-xs rounded-xl hover:bg-blue-700 shadow-md shadow-blue-500/20 transition-all">
+                        Enviar para Revisão
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 4: FAVORITOS / SALVOS -->
+        <section id="section-bookmarks" class="hidden space-y-6">
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2 mb-4">
+                    <i data-lucide="bookmark" class="w-6 h-6 text-blue-600"></i> Exames e Materiais Salvos
+                </h2>
+                <div id="bookmarks-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                    <!-- Inserido via JS -->
+                </div>
+                <div id="bookmarks-empty" class="hidden text-center py-12 text-slate-500">
+                    <i data-lucide="bookmark-x" class="w-12 h-12 mx-auto text-slate-300 mb-2"></i>
+                    <p class="text-sm font-medium">Ainda não guardou nenhum exame.</p>
+                    <p class="text-xs text-slate-400 mt-1">Clique no ícone de marcador num card de exame para o guardar aqui.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Modal de Visualização Rápida (Preview de PDF Demonstrativo) -->
+    <div id="preview-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in">
+        <div class="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
+            <!-- Header do Modal -->
+            <div class="p-4 border-b border-slate-200 flex items-center justify-between bg-slate-50">
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-lg bg-red-100 text-red-600 flex items-center justify-center">
+                        <i data-lucide="file-text" class="w-4 h-4"></i>
+                    </div>
+                    <div>
+                        <h3 id="modal-title" class="font-bold text-slate-800 text-sm">Visualização de Exame</h3>
+                        <p id="modal-subtitle" class="text-xs text-slate-500">Exame Oficial • UEM</p>
+                    </div>
+                </div>
+                <button onclick="closePreviewModal()" class="p-1.5 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-200/50">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <!-- Conteúdo Simulado do PDF -->
+            <div class="p-6 overflow-y-auto flex-grow bg-slate-100 space-y-4 font-serif text-slate-800 text-sm">
+                <div class="bg-white p-8 rounded-lg shadow-sm border border-slate-200 max-w-2xl mx-auto min-h-[400px]">
+                    <div class="text-center border-b pb-4 mb-6">
+                        <h4 class="font-bold text-base uppercase tracking-wider text-slate-900" id="preview-uni-header">UNIVERSIDADE EDUARDO MONDLANE</h4>
+                        <p class="text-xs text-slate-600">COMISSÃO DE EXAMES DE ADMISSÃO</p>
+                        <p class="text-xs font-bold mt-2 text-blue-700" id="preview-subject-header">EXAME DE MATEMÁTICA - 2023</p>
+                        <p class="text-[10px] text-slate-400">Duração: 120 Minutos • Cotação: 20 Valores</p>
+                    </div>
+
+                    <div class="space-y-6 text-xs leading-relaxed font-sans text-slate-700">
+                        <p class="italic text-slate-500 text-[11px] bg-amber-50 p-2.5 rounded border border-amber-200">
+                            <strong>Nota demonstrativa:</strong> Este é um documento simulado em pré-visualização. Baixe o ficheiro completo para ver todas as 30 perguntas e a chave de resposta.
+                        </p>
+
+                        <div>
+                            <p class="font-bold text-slate-900 mb-1">1. Qual é o domínio da função $f(x) = \sqrt{x - 4}$?</p>
+                            <div class="pl-4 space-y-1">
+                                <p>A) $x \in \mathbb{R}$</p>
+                                <p>B) $x \geq 4$</p>
+                                <p>C) $x > 4$</p>
+                                <p>D) $x \leq 4$</p>
+                            </div>
+                        </div>
+
+                        <div>
+                            <p class="font-bold text-slate-900 mb-1">2. O valor do limite $\lim_{x \to 0} \frac{\sin(x)}{x}$ é igual a:</p>
+                            <div class="pl-4 space-y-1">
+                                <p>A) 0</p>
+                                <p>B) $\infty$</p>
+                                <p>C) 1</p>
+                                <p>D) Indeterminado</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer do Modal -->
+            <div class="p-4 border-t border-slate-200 bg-white flex justify-between items-center">
+                <span class="text-xs text-slate-500">Formato: PDF • Exame Completo</span>
+                <button id="modal-download-btn" onclick="" class="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl flex items-center gap-2 shadow-md shadow-blue-500/20">
+                    <i data-lucide="download" class="w-4 h-4"></i> Baixar Ficheiro PDF
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast de Notificação -->
+    <div id="toast" class="fixed bottom-5 right-5 z-50 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-xl flex items-center gap-3 text-xs font-medium translate-y-20 opacity-0 transition-all duration-300">
+        <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400" id="toast-icon"></i>
+        <span id="toast-message">Operação realizada com sucesso!</span>
+    </div>
+
+    <!-- Footer Geral -->
+    <footer class="bg-white border-t border-slate-200 mt-12 py-8">
+        <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-500 space-y-2">
+            <p class="font-semibold text-slate-700">ExamesMZ • Plataforma Livre de Preparação Académica</p>
+            <p>Moçambique • UEM, UP, UniZambeze, UniLúrio, ISR</p>
+            <p class="text-[11px] text-slate-400">© 2026 ExamesMZ. Todos os direitos reservados. Materiais para fins exclusivamente educacionais.</p>
+        </div>
+    </footer>
+
+    <!-- LÓGICA JAVASCRIPT VANILLA -->
+    <script>
+        // BASE DE DADOS SIMULADA DE EXAMES E MATERIAIS
+        const defaultExams = [
+            {
+                id: 'ex-1',
+                title: 'Exame de Admissão de Matemática I',
+                university: 'UEM',
+                subject: 'Matemática',
+                year: 2023,
+                type: 'Exame',
+                downloads: 1420,
+                rating: 4.8,
+                size: '2.4 MB'
+            },
+            {
+                id: 'ex-2',
+                title: 'Exame de Admissão de Física',
+                university: 'UEM',
+                subject: 'Física',
+                year: 2023,
+                type: 'Exame',
+                downloads: 980,
+                rating: 4.6,
+                size: '1.8 MB'
+            },
+            {
+                id: 'ex-3',
+                title: 'Guia Resolvido de Matemática (2020-2022)',
+                university: 'UP',
+                subject: 'Matemática',
+                year: 2022,
+                type: 'Guia de Resolução',
+                downloads: 2310,
+                rating: 4.9,
+                size: '5.1 MB'
+            },
+            {
+                id: 'ex-4',
+                title: 'Exame de Biologia Geral',
+                university: 'UniZambeze',
+                subject: 'Biologia',
+                year: 2024,
+                type: 'Exame',
+                downloads: 650,
+                rating: 4.5,
+                size: '1.2 MB'
+            },
+            {
+                id: 'ex-5',
+                title: 'Exame de Língua Portuguesa',
+                university: 'UP',
+                subject: 'Português',
+                year: 2023,
+                type: 'Exame',
+                downloads: 1120,
+                rating: 4.7,
+                size: '1.5 MB'
+            },
+            {
+                id: 'ex-6',
+                title: 'Módulo Completo de Preparação de Química',
+                university: 'UniLúrio',
+                subject: 'Química',
+                year: 2021,
+                type: 'Módulo de Preparação',
+                downloads: 890,
+                rating: 4.8,
+                size: '4.2 MB'
+            },
+            {
+                id: 'ex-7',
+                title: 'Exame de Geografia e História',
+                university: 'ISR',
+                subject: 'História',
+                year: 2022,
+                type: 'Exame',
+                downloads: 430,
+                rating: 4.3,
+                size: '1.1 MB'
+            },
+            {
+                id: 'ex-8',
+                title: 'Exame de Admissão de Química Geral',
+                university: 'UEM',
+                subject: 'Química',
+                year: 2024,
+                type: 'Exame',
+                downloads: 1750,
+                rating: 4.9,
+                size: '2.0 MB'
+            }
+        ];
+
+        // QUIZZES PERGUNTAS SIMULADAS
+        const quizData = {
+            matematica: {
+                title: "Simulado de Matemática (Estilo UEM)",
+                questions: [
+                    {
+                        question: "1. Qual é o resultado da derivada da função $f(x) = 3x^2 + 5x - 2$?",
+                        options: ["A) 6x + 5", "B) 3x + 5", "C) 6x^2 + 5", "D) 6x - 2"],
+                        correct: 0
+                    },
+                    {
+                        question: "2. Se $log_2(x) = 5$, qual é o valor de $x$?",
+                        options: ["A) 10", "B) 25", "C) 32", "D) 64"],
+                        correct: 2
+                    },
+                    {
+                        question: "3. Qual é a soma das raízes da equação $x^2 - 7x + 10 = 0$?",
+                        options: ["A) 10", "B) 7", "C) -7", "D) 5"],
+                        correct: 1
+                    }
+                ]
+            },
+            fisica: {
+                title: "Simulado de Física (Mecânica e Cinemática)",
+                questions: [
+                    {
+                        question: "1. Um automóvel acelera uniformemente de 0 a 20 m/s em 5 segundos. Qual a sua aceleração?",
+                        options: ["A) 2 m/s²", "B) 4 m/s²", "C) 5 m/s²", "D) 10 m/s²"],
+                        correct: 1
+                    },
+                    {
+                        question: "2. Qual é a unidade fundamental da Força no Sistema Internacional (SI)?",
+                        options: ["A) Joule (J)", "B) Watt (W)", "C) Newton (N)", "D) Pascal (Pa)"],
+                        correct: 2
+                    }
+                ]
+            },
+            portugues: {
+                title: "Simulado de Língua Portuguesa",
+                questions: [
+                    {
+                        question: "1. Identifique a frase com a regência verbal CORRETA:",
+                        options: [
+                            "A) Eu assisti o filme ontem.",
+                            "B) Chegamos em Maputo muito cedo.",
+                            "C) O estudante obedeceu aos conselhos do professor.",
+                            "D) Prefiro mais estudar do que trabalhar."
+                        ],
+                        correct: 2
+                    }
+                ]
+            }
+        };
+
+        // ESTADO GLOBAL DA APLICAÇÃO
+        let examsList = [...defaultExams];
+        let savedBookmarks = JSON.parse(localStorage.getItem('mz_bookmarks') || '[]');
+        let currentQuiz = null;
+        let currentQuestionIndex = 0;
+        let quizScore = 0;
+        let selectedOption = null;
+
+        // INICIALIZAÇÃO DA PÁGINA
+        window.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            renderExams();
+            updateBookmarkBadge();
+            setupEventListeners();
+        });
+
+        // NAVEGAÇÃO POR ABAS
+        function switchTab(tabName) {
+            const tabs = ['explore', 'quiz', 'upload', 'bookmarks'];
+            tabs.forEach(tab => {
+                const sec = document.getElementById(`section-${tab}`);
+                const nav = document.getElementById(`nav-${tab}`);
+                if(tab === tabName) {
+                    sec.classList.remove('hidden');
+                    if(nav) {
+                        nav.classList.add('text-blue-600', 'bg-blue-50');
+                        nav.classList.remove('text-slate-600');
+                    }
+                } else {
+                    sec.classList.add('hidden');
+                    if(nav) {
+                        nav.classList.remove('text-blue-600', 'bg-blue-50');
+                        nav.classList.add('text-slate-600');
+                    }
+                }
+            });
+
+            if(tabName === 'bookmarks') renderBookmarks();
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // RENDERIZAÇÃO DOS EXAMES
+        function renderExams() {
+            const container = document.getElementById('exams-grid');
+            const emptyState = document.getElementById('empty-state');
+            const countLabel = document.getElementById('results-count');
+
+            const searchVal = document.getElementById('search-input').value.toLowerCase();
+            const uniVal = document.getElementById('filter-university').value;
+            const subjectVal = document.getElementById('filter-subject').value;
+            const yearVal = document.getElementById('filter-year').value;
+            const typeVal = document.getElementById('filter-type').value;
+
+            const filtered = examsList.filter(item => {
+                const matchesSearch = item.title.toLowerCase().includes(searchVal) || 
+                                      item.subject.toLowerCase().includes(searchVal) ||
+                                      item.university.toLowerCase().includes(searchVal);
+                const matchesUni = !uniVal || item.university === uniVal;
+                const matchesSubject = !subjectVal || item.subject === subjectVal;
+                const matchesYear = !yearVal || item.year.toString() === yearVal;
+                const matchesType = !typeVal || item.type === typeVal;
+
+                return matchesSearch && matchesUni && matchesSubject && matchesYear && matchesType;
+            });
+
+            countLabel.textContent = `A mostrar ${filtered.length} de ${examsList.length} materiais académicos`;
+
+            if(filtered.length === 0) {
+                container.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+            container.innerHTML = filtered.map(item => createExamCardHTML(item)).join('');
+            lucide.createIcons();
+        }
+
+        // MODELO DE CARD HTML
+        function createExamCardHTML(item) {
+            const isBookmarked = savedBookmarks.includes(item.id);
+
+            return `
+                <div class="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-sm hover:shadow-md transition-all flex flex-col justify-between relative group">
+                    <div>
+                        <div class="flex items-start justify-between gap-2 mb-3">
+                            <span class="px-2.5 py-1 rounded-md bg-blue-50 text-blue-700 font-bold text-[11px] tracking-wide uppercase">
+                                ${item.university}
+                            </span>
+                            <div class="flex items-center gap-2">
+                                <span class="text-xs font-semibold text-slate-500 bg-slate-100 px-2 py-0.5 rounded">
+                                    ${item.year}
+                                </span>
+                                <button onclick="toggleBookmark('${item.id}')" class="p-1 text-slate-400 hover:text-blue-600 transition-colors">
+                                    <i data-lucide="bookmark" class="w-4 h-4 ${isBookmarked ? 'fill-blue-600 text-blue-600' : ''}"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <h3 class="font-bold text-slate-900 text-sm leading-snug line-clamp-2 mb-2 group-hover:text-blue-600 transition-colors">
+                            ${item.title}
+                        </h3>
+
+                        <div class="flex items-center gap-3 text-xs text-slate-500 mb-4">
+                            <span class="flex items-center gap-1"><i data-lucide="book" class="w-3.5 h-3.5"></i> ${item.subject}</span>
+                            <span class="flex items-center gap-1"><i data-lucide="file" class="w-3.5 h-3.5"></i> ${item.type}</span>
+                        </div>
+                    </div>
+
+                    <div class="pt-3 border-t border-slate-100 flex items-center justify-between mt-2">
+                        <div class="text-[11px] text-slate-400">
+                            <span>${item.downloads} downloads</span> • <span>${item.size}</span>
+                        </div>
+                        <div class="flex items-center gap-1.5">
+                            <button onclick="openPreviewModal('${item.id}')" class="p-2 text-slate-600 hover:bg-slate-100 rounded-lg text-xs font-medium flex items-center gap-1" title="Pré-visualizar">
+                                <i data-lucide="eye" class="w-4 h-4"></i>
+                            </button>
+                            <button onclick="downloadExam('${item.id}')" class="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-semibold flex items-center gap-1 shadow-sm transition-all">
+                                <i data-lucide="download" class="w-3.5 h-3.5"></i> Baixar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // EVENT LISTENERS PARA BUSCA E FILTROS
+        function setupEventListeners() {
+            const searchInput = document.getElementById('search-input');
+            const clearBtn = document.getElementById('clear-search');
+
+            searchInput.addEventListener('input', (e) => {
+                if(e.target.value.length > 0) clearBtn.classList.remove('hidden');
+                else clearBtn.classList.add('hidden');
+                renderExams();
+            });
+
+            clearBtn.addEventListener('click', () => {
+                searchInput.value = '';
+                clearBtn.classList.add('hidden');
+                renderExams();
+            });
+
+            ['filter-university', 'filter-subject', 'filter-year', 'filter-type'].forEach(id => {
+                document.getElementById(id).addEventListener('change', renderExams);
+            });
+
+            document.getElementById('mobile-menu-btn').addEventListener('click', toggleMobileMenu);
+        }
+
+        function resetFilters() {
+            document.getElementById('search-input').value = '';
+            document.getElementById('filter-university').value = '';
+            document.getElementById('filter-subject').value = '';
+            document.getElementById('filter-year').value = '';
+            document.getElementById('filter-type').value = '';
+            document.getElementById('clear-search').classList.add('hidden');
+            renderExams();
+            showToast('Filtros redefinidos com sucesso!');
+        }
+
+        function quickFilter(uni) {
+            resetFilters();
+            document.getElementById('filter-university').value = uni;
+            switchTab('explore');
+            renderExams();
+        }
+
+        // LÓGICA DE FAVORITOS (BOOKMARKS)
+        function toggleBookmark(id) {
+            if(savedBookmarks.includes(id)) {
+                savedBookmarks = savedBookmarks.filter(bId => bId !== id);
+                showToast('Material removido dos favoritos');
+            } else {
+                savedBookmarks.push(id);
+                showToast('Material guardado nos salvos!');
+            }
+            localStorage.setItem('mz_bookmarks', JSON.stringify(savedBookmarks));
+            updateBookmarkBadge();
+            renderExams();
+            renderBookmarks();
+        }
+
+        function updateBookmarkBadge() {
+            const badge = document.getElementById('bookmark-count');
+            if(savedBookmarks.length > 0) {
+                badge.textContent = savedBookmarks.length;
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
+        }
+
+        function renderBookmarks() {
+            const container = document.getElementById('bookmarks-grid');
+            const emptyState = document.getElementById('bookmarks-empty');
+
+            const bookmarkedExams = examsList.filter(item => savedBookmarks.includes(item.id));
+
+            if(bookmarkedExams.length === 0) {
+                container.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+            container.innerHTML = bookmarkedExams.map(item => createExamCardHTML(item)).join('');
+            lucide.createIcons();
+        }
+
+        // LÓGICA DE DOWNLOAD SIMULADO
+        function downloadExam(id) {
+            const exam = examsList.find(e => e.id === id);
+            if(!exam) return;
+
+            exam.downloads += 1;
+            renderExams();
+
+            // Simulação de Download
+            showToast(`A iniciar o download de: ${exam.title}...`);
+
+            // Criação de ficheiro de texto simulado para download
+            const blob = new Blob([`CONTEÚDO DEMONSTRATIVO DE EXAME:\n\nTítulo: ${exam.title}\nUniversidade: ${exam.university}\nAno: ${exam.year}\nDisciplina: ${exam.subject}\n\nEste ficheiro foi descarregado através do portal ExamesMZ.`], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${exam.university}_${exam.subject}_${exam.year}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }
+
+        // MODAL DE PRÉ-VISUALIZAÇÃO
+        function openPreviewModal(id) {
+            const exam = examsList.find(e => e.id === id);
+            if(!exam) return;
+
+            document.getElementById('modal-title').textContent = exam.title;
+            document.getElementById('modal-subtitle').textContent = `${exam.type} • ${exam.university} (${exam.year})`;
+            document.getElementById('preview-uni-header').textContent = `UNIVERSIDADE ${exam.university.toUpperCase()}`;
+            document.getElementById('preview-subject-header').textContent = `EXAME DE ${exam.subject.toUpperCase()} - ${exam.year}`;
+            
+            const btn = document.getElementById('modal-download-btn');
+            btn.onclick = () => {
+                closePreviewModal();
+                downloadExam(exam.id);
+            };
+
+            document.getElementById('preview-modal').classList.remove('hidden');
+        }
+
+        function closePreviewModal() {
+            document.getElementById('preview-modal').classList.add('hidden');
+        }
+
+        // SIMULADOR / QUIZ INTERATIVO
+        function startQuiz(type) {
+            currentQuiz = quizData[type];
+            if(!currentQuiz) return;
+
+            currentQuestionIndex = 0;
+            quizScore = 0;
+
+            document.getElementById('quiz-selection').classList.add('hidden');
+            document.getElementById('quiz-container').classList.remove('hidden');
+            document.getElementById('quiz-result').classList.add('hidden');
+            document.getElementById('quiz-title-display').textContent = currentQuiz.title;
+
+            renderQuizQuestion();
+        }
+
+        function renderQuizQuestion() {
+            const q = currentQuiz.questions[currentQuestionIndex];
+            document.getElementById('quiz-progress').textContent = `Pergunta ${currentQuestionIndex + 1} de ${currentQuiz.questions.length}`;
+            document.getElementById('quiz-question-text').textContent = q.question;
+
+            const optionsContainer = document.getElementById('quiz-options-container');
+            selectedOption = null;
+            document.getElementById('quiz-next-btn').disabled = true;
+
+            optionsContainer.innerHTML = q.options.map((opt, idx) => `
+                <div onclick="selectOption(${idx})" id="opt-${idx}" class="p-3 bg-white border border-slate-200 rounded-xl cursor-pointer hover:border-blue-500 transition-all text-xs font-medium text-slate-700 flex items-center justify-between">
+                    <span>${opt}</span>
+                    <div id="radio-${idx}" class="w-4 h-4 rounded-full border border-slate-300"></div>
+                </div>
+            `).join('');
+        }
+
+        function selectOption(idx) {
+            selectedOption = idx;
+            const q = currentQuiz.questions[currentQuestionIndex];
+
+            // Reset estilos
+            q.options.forEach((_, i) => {
+                const el = document.getElementById(`opt-${i}`);
+                if(el) {
+                    el.className = "p-3 bg-white border border-slate-200 rounded-xl cursor-pointer hover:border-blue-500 transition-all text-xs font-medium text-slate-700 flex items-center justify-between";
+                }
+            });
+
+            // Selecionado
+            const selectedEl = document.getElementById(`opt-${idx}`);
+            if(selectedEl) {
+                selectedEl.className = "p-3 bg-blue-50 border-2 border-blue-600 rounded-xl cursor-pointer transition-all text-xs font-semibold text-blue-900 flex items-center justify-between";
+            }
+
+            document.getElementById('quiz-next-btn').disabled = false;
+        }
+
+        function nextQuestion() {
+            if(selectedOption === null) return;
+
+            const q = currentQuiz.questions[currentQuestionIndex];
+            if(selectedOption === q.correct) {
+                quizScore++;
+            }
+
+            currentQuestionIndex++;
+
+            if(currentQuestionIndex < currentQuiz.questions.length) {
+                renderQuizQuestion();
+            } else {
+                finishQuiz();
+            }
+        }
+
+        function finishQuiz() {
+            document.getElementById('quiz-container').classList.add('hidden');
+            document.getElementById('quiz-result').classList.remove('hidden');
+            
+            const total = currentQuiz.questions.length;
+            const pct = Math.round((quizScore / total) * 100);
+            
+            document.getElementById('quiz-score-text').textContent = `Acertou ${quizScore} de ${total} perguntas (${pct}% de aproveitamento).`;
+        }
+
+        function resetQuizView() {
+            document.getElementById('quiz-selection').classList.remove('hidden');
+            document.getElementById('quiz-container').classList.add('hidden');
+            document.getElementById('quiz-result').classList.add('hidden');
+        }
+
+        function cancelQuiz() {
+            resetQuizView();
+        }
+
+        // ENVIO DE NOVO MATERIAL
+        function updateFileName(input) {
+            const nameDisplay = document.getElementById('file-name-display');
+            if(input.files && input.files[0]) {
+                nameDisplay.textContent = `Ficheiro selecionado: ${input.files[0].name}`;
+                nameDisplay.classList.add('text-blue-600', 'font-bold');
+            }
+        }
+
+        function handleUploadSubmit(e) {
+            e.preventDefault();
+            
+            const title = document.getElementById('upload-title').value;
+            const uni = document.getElementById('upload-university').value;
+            const subject = document.getElementById('upload-subject').value;
+            const year = parseInt(document.getElementById('upload-year').value);
+            const type = document.getElementById('upload-type').value;
+
+            const newExam = {
+                id: `ex-${Date.now()}`,
+                title: title,
+                university: uni,
+                subject: subject,
+                year: year,
+                type: type,
+                downloads: 0,
+                rating: 5.0,
+                size: '2.0 MB'
+            };
+
+            examsList.unshift(newExam);
+            document.getElementById('upload-form').reset();
+            document.getElementById('file-name-display').textContent = 'Clique para selecionar o documento (PDF)';
+            document.getElementById('file-name-display').classList.remove('text-blue-600', 'font-bold');
+
+            showToast('Exame submetido com sucesso e adicionado à biblioteca!');
+            switchTab('explore');
+            renderExams();
+        }
+
+        // UTILITÁRIO DE NOTIFICAÇÃO (TOAST)
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const msg = document.getElementById('toast-message');
+            msg.textContent = message;
+
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
